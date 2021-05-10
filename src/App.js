@@ -4,7 +4,11 @@ import './App.css';
 import Header from './components/ui/header'
 import PokemoniGrid from './components/pokemoni/PokemoniGrid'
 import { getPokemon, getAllPokemon } from './components/pokemoni/pokemon'
-
+import {
+  BrowserRouter as Router,
+  Switch, Route, Link
+}from "react-router-dom";
+import Opis from './opis/opis'
 const App = () => {
   const [items, setItems] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -13,8 +17,8 @@ const App = () => {
 
   useEffect(async () => {
     const fetchItems = async () => {
-const urll = 'https://pokeapi.co/api/v2/pokemon'
-console.log(urll)
+      const urll = 'https://pokeapi.co/api/v2/pokemon'
+      console.log(urll)
       const result = await axios(urll)
 
       await loadingPokemon(result.data.results)
@@ -34,7 +38,7 @@ console.log(urll)
     await loadingPokemon(result.data.results);
     setNextUrl(result.data.next);
     setPrevUrl(result.data.previous);
-     setItems(result.data)
+    setItems(result.data)
     setIsLoading(false);
   }
 
@@ -45,7 +49,7 @@ console.log(urll)
     await loadingPokemon(result.data.results);
     setNextUrl(result.data.next);
     setPrevUrl(result.data.previous);
-     setItems(result.data)
+    setItems(result.data)
     setIsLoading(false);
   }
 
@@ -63,17 +67,39 @@ console.log(urll)
   }
 
   return (
+
     <div className="container">
       <Header />
-      <div className="dugmici">
-        <button className="pn" onClick={prev}>
-          Prethodna
-        </button>
-        <button className="pn" onClick={next}>
-          Sledeca
-        </button>
-      </div>
-      <PokemoniGrid isLoading={isLoading} items={items.results} />
+
+      <Router>
+
+        <ul>
+          <li>
+            <Link to="/" className="futer">Home</Link>
+          </li>
+          <li>
+            <Link to="/opis" className="futer">About</Link>
+          </li>
+        </ul>
+
+        <Switch>
+          <Route path="/opis">
+            <Opis />
+          </Route>
+
+          <Route path="/">
+            <div className="dugmici">
+              <button className="pn" onClick={prev}>
+                Prethodna
+                </button>
+              <button className="pn" onClick={next}>
+                Sledeca
+                </button>
+            </div>
+            <PokemoniGrid isLoading={isLoading} items={items.results} />
+          </Route>
+          </Switch>
+            </Router>
     </div>
   );
 }

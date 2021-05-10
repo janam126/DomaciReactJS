@@ -147,6 +147,10 @@ input[type='text'] {
   margin: 0 auto;
   align-items: center;
 }
+
+.futer{
+  color:#fff;
+}
 @media (max-width: 800px) {
   .cards {
     grid-template-columns: repeat(2, 1fr);
